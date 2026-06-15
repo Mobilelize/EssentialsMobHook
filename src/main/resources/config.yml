@@ -1,0 +1,16 @@
+# MiniMessage format strings for private messages.
+# Name placeholders (<sender>, <recipient>) render with prefix/suffix from your permission plugin.
+# <message> is always treated as plain text — players cannot inject MiniMessage tags.
+msg-format-sender: "<yellow>(To <recipient>)</yellow> <yellow><message></yellow>"
+msg-format-recipient: "<yellow>(From <sender>)</yellow> <yellow><message></yellow>"
+
+# System notices (sent to the sender)
+msg-unreachable: "<dark_red><recipient> recently went offline.</dark_red>"
+msg-ignored: "<red><recipient></red> <dark_red>has messages disabled.</dark_red>"
+msg-afk: "<gray><recipient></gray> <dark_purple>is currently AFK and may not respond."
+msg-afk-with-message: "<gray><recipient></gray> <dark_purple>is currently AFK and may not respond: <afk-message></dark_purple>"
+
+# Social spy (received by staff with /socialspy on)
+# Extra placeholders: <spy-sender>, <spy-recipient>
+msg-social-spy: "<white>[<gold>SS</gold>]</white> <gold>[<red><spy-sender></red> <gray>-></gray> <red><spy-recipient></red>]</gold> <gray><message>"
+msg-social-spy-muted: "<white>[<gold>SS</gold>]</white> <gray>(muted)</gray> <gold>[<red><spy-sender></red> <gray>-></gray> <red><spy-recipient></red>]</gold> <gray><message>"

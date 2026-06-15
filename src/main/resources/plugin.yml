@@ -1,0 +1,7 @@
+name: EssentialsMobHook
+version: '1.0.0'
+main: net.mobilelize.essentialsMobHook.EssentialsMobHook
+api-version: '1.21'
+authors: [ Mobilelize ]
+description: Made by Mobilelize
+depend: ["Essentials"]
