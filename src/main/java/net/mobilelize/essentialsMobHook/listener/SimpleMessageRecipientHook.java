@@ -30,10 +30,10 @@ public class SimpleMessageRecipientHook implements Listener {
     }
 
     private void sendFmt(IMessageRecipient recipient, String template, TagResolver resolver) {
-        Component component = MM.deserialize(template, resolver);
-        UUID uuid = recipient.getUUID();
+        final Component component = MM.deserialize(template, resolver);
+        final UUID uuid = recipient.getUUID();
         if (uuid != null) {
-            Player player = plugin.getServer().getPlayer(uuid);
+            final Player player = plugin.getServer().getPlayer(uuid);
             if (player != null) {
                 player.sendMessage(component);
                 return;

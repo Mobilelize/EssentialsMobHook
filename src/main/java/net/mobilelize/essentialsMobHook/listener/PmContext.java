@@ -45,9 +45,9 @@ public final class PmContext {
     }
 
     private static Component display(IMessageRecipient r, IEssentials ess) {
-        UUID uuid = r.getUUID();
+        final UUID uuid = r.getUUID();
         if (uuid != null) {
-            User user = ess.getUser(uuid);
+            final User user = ess.getUser(uuid);
             if (user != null) {
                 return LegacyComponentSerializer.legacySection().deserialize(user.getDisplayName());
             }
