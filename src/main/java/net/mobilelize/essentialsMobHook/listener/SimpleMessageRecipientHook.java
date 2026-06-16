@@ -83,7 +83,7 @@ public class SimpleMessageRecipientHook implements Listener {
         final boolean afk = recipientUser != null && recipientUser.isAfk();
 
         // --- Deliver to recipient ---
-        sendFmt(recipient, config.getString("msg-format-recipient", "<yellow>(From <sender>)</yellow> <yellow><message></yellow>"), ctx.resolver);
+        sendFmt(recipient, config.getString("msg-format-recipient", "<yellow>(From <gray><sender></gray>)</yellow> <yellow><message></yellow>"), ctx.resolver);
 
         // --- Reply recipients ---
         sender.setReplyRecipient(recipient);
@@ -115,7 +115,7 @@ public class SimpleMessageRecipientHook implements Listener {
         }
 
         // --- Deliver to sender ---
-        sendFmt(sender, config.getString("msg-format-sender", "<yellow>(To <recipient>)</yellow> <yellow><message></yellow>"), ctx.resolver);
+        sendFmt(sender, config.getString("msg-format-sender", "<yellow>(To <gray><recipient></gray>)</yellow> <yellow><message></yellow>"), ctx.resolver);
 
         // --- Social spy ---
         if (ess.getSettings().isSocialSpyMessages()
