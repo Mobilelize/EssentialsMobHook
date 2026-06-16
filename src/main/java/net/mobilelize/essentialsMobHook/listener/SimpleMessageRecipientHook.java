@@ -11,11 +11,13 @@ import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.mobilelize.essentialsMobHook.EssentialsMobHook;
+import net.mobilelize.essentialsMobHook.util.PmContext;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import java.util.Map;
 import java.util.UUID;
 
 public class SimpleMessageRecipientHook implements Listener {
@@ -23,10 +25,12 @@ public class SimpleMessageRecipientHook implements Listener {
     private final IEssentials ess;
     private final EssentialsMobHook plugin;
     private static final MiniMessage MM = MiniMessage.miniMessage();
+    private final Map<UUID, Long> lastMessageMs;
 
-    public SimpleMessageRecipientHook(IEssentials ess, EssentialsMobHook plugin) {
+    public SimpleMessageRecipientHook(IEssentials ess, EssentialsMobHook plugin, Map<UUID, Long> lastMessageMs) {
         this.ess = ess;
         this.plugin = plugin;
+        this.lastMessageMs = lastMessageMs;
     }
 
     private void sendFmt(IMessageRecipient recipient, String template, TagResolver resolver) {
@@ -82,8 +86,19 @@ public class SimpleMessageRecipientHook implements Listener {
         sendFmt(recipient, config.getString("msg-format-recipient", "<yellow>(From <sender>)</yellow> <yellow><message></yellow>"), ctx.resolver);
 
         // --- Reply recipients ---
-        recipient.setReplyRecipient(sender);
         sender.setReplyRecipient(recipient);
+        final UUID recipientUuid = recipient.getUUID();
+        if (recipientUser != null && recipientUser.isLastMessageReplyRecipient()) {
+            final long timeout = ess.getSettings().getLastMessageReplyRecipientTimeout() * 1000L;
+            final long last = recipientUuid != null ? lastMessageMs.getOrDefault(recipientUuid, 0L) : 0L;
+            if (recipient.getReplyRecipient() == null || !recipient.getReplyRecipient().isReachable()
+                    || System.currentTimeMillis() - last > timeout) {
+                recipient.setReplyRecipient(sender);
+            }
+        } else {
+            recipient.setReplyRecipient(sender);
+        }
+        if (recipientUuid != null) lastMessageMs.put(recipientUuid, System.currentTimeMillis());
 
         // --- AFK notice to sender ---
         if (afk) {

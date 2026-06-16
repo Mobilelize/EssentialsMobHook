@@ -1,4 +1,4 @@
-package net.mobilelize.essentialsMobHook.listener;
+package net.mobilelize.essentialsMobHook.util;
 
 import com.earth2me.essentials.IEssentials;
 import com.earth2me.essentials.User;
